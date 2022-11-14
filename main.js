@@ -84,33 +84,28 @@ function Clock(props) {
             setDate(new Date())
           },1000);
           intervalRef.current = interval;
-          return () => {
-            console.log("clear")
-            clearInterval(intervalRef.current);
-          };
-    });
+        return () => { window.clearInterval(intervalRef);}
+    }, []);
     
     const [date, setDate] = React.useState(new Date());
     const [colorHorloge, setColorHorloge] = React.useState("#000000");
-
-    const tick = (stop = false) => {
-        if(stop) window.clearInterval(i);
-        const i = setInterval(() => {
-            setDate(new Date())
-        }, 1000)
-        
-    }
 
     const randomColor = () => "#" + (Math.random() * 0xfffff * 1000000).toString(16).slice(0,6);
     
     const handleClickColor = () => {
         setColorHorloge(randomColor());
-        clearInterval(intervalRef.current);
     }
 
     const handleClickReinit = () => {
         setColorHorloge("#000000");
-        clearInterval(intervalRef.current);
+    }
+
+    const handleClickStop = () => {
+        window.clearInterval(intervalRef);
+    }
+
+    const handleClickRestart = () => {
+        tick();
     }
 
     return (
@@ -119,6 +114,8 @@ function Clock(props) {
             <h2 style={{color:colorHorloge}}>Il est {date.toLocaleTimeString()}.</h2>
             <button onClick={handleClickColor}> color </button>
             <button onClick={handleClickReinit}> Reinit </button>
+            <button onClick={handleClickStop}> Stop </button>
+            <button onClick={handleClickRestart}> Restart </button>
         </div>
         );
 }
