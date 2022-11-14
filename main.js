@@ -80,10 +80,7 @@ function Clock(props) {
     const intervalRef = React.useRef();
     React.useEffect(() => {
 
-        const interval = setInterval(() => {
-            setDate(new Date())
-          },1000);
-          intervalRef.current = interval;
+        tick();
         return () => { window.clearInterval(intervalRef);}
     }, []);
     
@@ -100,8 +97,15 @@ function Clock(props) {
         setColorHorloge("#000000");
     }
 
-    const handleClickStop = () => {
-        window.clearInterval(intervalRef);
+    const tick = () => {
+        intervalRef.current = setInterval(() => {
+            setDate(new Date());
+        }, 1000)
+        
+    }
+
+    const handleClickStop = (e) => {
+        clearInterval(intervalRef);
     }
 
     const handleClickRestart = () => {
