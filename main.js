@@ -1,5 +1,8 @@
 //const helloWorld = React.createElement('h1', {}, 'Hello world!');
+import React from "react";
+import ReactDOM from "react-dom";
 
-const helloWorld = <h1>Hello world!</h1>;
+const nameOne = 'Julien JOVY'
+const elementOne = <h1 title={nameOne}>Bonjour</h1>
 
-ReactDOM.render(helloWorld, document.querySelector('#app'));
+ReactDOM.render(elementOne, document.querySelector('#app'));
