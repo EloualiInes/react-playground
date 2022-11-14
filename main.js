@@ -77,23 +77,48 @@ ReactDOM.render(<Clock />, document.querySelector('#app'));  */
 
 
 function Clock(props) {
+    const intervalRef = React.useRef();
     React.useEffect(() => {
-        tick();        
-    }, []);
+
+        const interval = setInterval(() => {
+            setDate(new Date())
+          },1000);
+          intervalRef.current = interval;
+          return () => {
+            console.log("clear")
+            clearInterval(intervalRef.current);
+          };
+    });
     
     const [date, setDate] = React.useState(new Date());
+    const [colorHorloge, setColorHorloge] = React.useState("#000000");
 
-    const tick = () => {
-        setInterval(() => {
+    const tick = (stop = false) => {
+        if(stop) window.clearInterval(i);
+        const i = setInterval(() => {
             setDate(new Date())
         }, 1000)
+        
     }
+
+    const randomColor = () => "#" + (Math.random() * 0xfffff * 1000000).toString(16).slice(0,6);
     
+    const handleClickColor = () => {
+        setColorHorloge(randomColor());
+        clearInterval(intervalRef.current);
+    }
+
+    const handleClickReinit = () => {
+        setColorHorloge("#000000");
+        clearInterval(intervalRef.current);
+    }
 
     return (
         <div>
             <h1>Hello world</h1>
-            <h2>Il est {date.toLocaleTimeString()}.</h2>
+            <h2 style={{color:colorHorloge}}>Il est {date.toLocaleTimeString()}.</h2>
+            <button onClick={handleClickColor}> color </button>
+            <button onClick={handleClickReinit}> Reinit </button>
         </div>
         );
 }
