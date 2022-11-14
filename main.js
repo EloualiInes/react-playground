@@ -1,39 +1,35 @@
-function UserGreeting(props) {
-    return <h1>Bienvenue !</h1>;
-  }
-  
-  function GuestGreeting(props) {
-    return <h1>Veuillez vous connecter</h1>;
-  }
-  function Greeting(props) {
-      const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+const AllUser = () => {
+    const url = "https://jsonplaceholder.typicode.com/users";
+    const [data,setData] = React.useState(null);
 
-      const handleLogIn = (e) => {
-          e.preventDefault();
-          setIsLoggedIn(true);
-      }
-
-      const handleLogOut = (e) => {
-          e.preventDefault();
-          setIsLoggedIn(false);
-      }
-
-    return(
-        <React.Fragment>
-            {isLoggedIn ? 
-            <React.Fragment>
-                <UserGreeting />
-                <button onClick={handleLogOut}>Se déconnecter</button>
-            </React.Fragment> : 
-            <React.Fragment>
-                <GuestGreeting />
-                <button onClick={handleLogIn}>Se connecter</button>
-            </React.Fragment> }
-        </React.Fragment>
+    React.useEffect(() => {
+        fetch(url)
+            .then(r => r.json())
+            .then(d => setData(d))
+    }, []);
+    return (
+        <div style={{padding:"0 20vw"}}>
+            <h1 style={{textAlign:"center"}}>Fiche de renseignement</h1>
+            {data && (
+                data.map((elt) => <User key = {elt.id} info = {elt} />)
+            )}
+        </div>
     )
-  }
-  
+
+}
+
+const User = ({info}) => {
+    return (
+        <div style={{border : "1px solid black", padding: "10px 15px"}}>
+            <p>Nom : {info.name}</p>
+            <p>E-mail : {info.email}</p>
+            <p>Nom de la société : {info.company.name}</p>
+            <p>Numéro de téléphone :{info.phone}</p>
+            <p>site web : {info.website}</p>
+        </div>
+    );
+}
   ReactDOM.render(
-    <Greeting />,
+    <AllUser />,
     document.querySelector('#app')
   );
