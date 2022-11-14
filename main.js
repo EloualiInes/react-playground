@@ -10,9 +10,12 @@ const AllUser = () => {
     return (
         <div style={{padding:"0 20vw"}}>
             <h1 style={{textAlign:"center"}}>Fiche de renseignement</h1>
-            {data && (
-                data.map((elt) => <User key = {elt.id} info = {elt} />)
-            )}
+            <div className="allCards">
+                {data && (
+                    data.map((elt) => <User key = {elt.id} info = {elt} />)
+                )}
+            </div>
+            
         </div>
     )
 
@@ -20,12 +23,12 @@ const AllUser = () => {
 
 const User = ({info}) => {
     return (
-        <div style={{border : "1px solid black", padding: "10px 15px"}}>
-            <p>Nom : {info.name}</p>
-            <p>E-mail : {info.email}</p>
-            <p>Nom de la société : {info.company.name}</p>
-            <p>Numéro de téléphone :{info.phone}</p>
-            <p>site web : {info.website}</p>
+        <div className="card">
+            <p><strong>Nom</strong> : {info.name}</p>
+            <p><strong>E-mail</strong> : {info.email}</p>
+            <p><strong>Nom de la société</strong> : {info.company.name}</p>
+            <p><strong>Numéro de téléphone</strong> :{info.phone}</p>
+            <p><strong>site web</strong> : {info.website}</p>
         </div>
     );
 }
