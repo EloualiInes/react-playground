@@ -11,7 +11,7 @@ function UserGreeting(props) {
     return (
         <div>
            { logIn ? <UserGreeting /> : <GuestGreeting />}
-            <button onClick={ () => {setLogIn(!logIn)}}>Change</button>
+            <button onClick={ () => {setLogIn(!logIn)}}>{logIn ? "Log out" : "Log in"}</button>
         </div>
     );
   }
