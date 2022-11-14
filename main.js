@@ -78,12 +78,6 @@ ReactDOM.render(<Clock />, document.querySelector('#app'));  */
 
 function Clock(props) {
     const intervalRef = React.useRef();
-    React.useEffect(() => {
-
-        tick();
-        return () => { window.clearInterval(intervalRef);}
-    }, []);
-    
     const [date, setDate] = React.useState(new Date());
     const [colorHorloge, setColorHorloge] = React.useState("#000000");
 
@@ -98,6 +92,7 @@ function Clock(props) {
     }
 
     const tick = () => {
+        console.log("ici")
         intervalRef.current = setInterval(() => {
             setDate(new Date());
         }, 1000)
@@ -105,12 +100,19 @@ function Clock(props) {
     }
 
     const handleClickStop = (e) => {
-        clearInterval(intervalRef);
+        e.preventDefault();
+        if (intervalRef) clearInterval(intervalRef.current);
+        
     }
 
-    const handleClickRestart = () => {
+    const handleClickRestart = (e) => {
+        e.preventDefault();
         tick();
     }
+
+    React.useEffect(() => {
+        tick();
+    }, []);
 
     return (
         <div>
@@ -118,8 +120,8 @@ function Clock(props) {
             <h2 style={{color:colorHorloge}}>Il est {date.toLocaleTimeString()}.</h2>
             <button onClick={handleClickColor}> color </button>
             <button onClick={handleClickReinit}> Reinit </button>
-            <button onClick={handleClickStop}> Stop </button>
-            <button onClick={handleClickRestart}> Restart </button>
+            <button onClick={e => handleClickStop(e)}> Stop </button>
+            <button onClick={e => handleClickRestart(e)}> Restart </button>
         </div>
         );
 }
